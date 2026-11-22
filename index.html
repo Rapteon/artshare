@@ -33,12 +33,16 @@
 							serialNum.textContent = `> Serial Number: ${serialNumber}`;
 							recordCount.textContent = `> Records: (${message.records.length})`;
 							const recordsContainer = tagDisplay.querySelector('#records-container');
+
 							for (const record of message.records) {
+								if (record.recordType === 'mime' && record.mediaType === 'text/html') {
+									const tagOutput = document.getElementById('tag-output');
+									console.log(tagOutput);
+									const utf8Decoder = new TextDecoder();
+									tagOutput.innerHTML = utf8Decoder.decode(record.data);
+								}
 								const li = document.createElement('li');
 								li.textContent = [record.id, record.recordType, record.mediaType, record.encoding, record.lang].join(':');
-								if (record.data) {
-									console.log(record.data);
-								}
 								recordsContainer.appendChild(li);
 							}
 						});
@@ -60,6 +64,7 @@
 		<p>Records:<span id="record-count"></span></p>
 		<ul id="records-container"></ul>
 	</div>
+	<div id="tag-output"></div>
 </body>
 
 </html>
