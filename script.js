@@ -1,3 +1,11 @@
+function decodeRecord(record) {
+    if (!(record && record.data)) {
+        return '';
+    }
+    const utf8Decoder = new TextDecoder();
+    return utf8Decoder.decode(record.data);
+}
+
 window.addEventListener('load', () => {
     const p = document.getElementById('output');
     if (!window.isSecureContext) {
@@ -26,16 +34,20 @@ window.addEventListener('load', () => {
                     recordCount.textContent = `> Records: (${message.records.length})`;
                     const recordsContainer = tagDisplay.querySelector('#records-container');
 
+                    const tagOutput = document.getElementById('tag-output');
+                    const documentHead = document.querySelector('head');
                     for (const record of message.records) {
-                        if (record.recordType === 'mime' && record.mediaType === 'text/html') {
-                            const tagOutput = document.getElementById('tag-output');
-                            console.log(tagOutput);
-                            const utf8Decoder = new TextDecoder();
-                            tagOutput.innerHTML = utf8Decoder.decode(record.data);
-                        }
                         const li = document.createElement('li');
                         li.textContent = [record.id, record.recordType, record.mediaType, record.encoding, record.lang].join(':');
                         recordsContainer.appendChild(li);
+                        if (record.recordType === 'mime' && record.mediaType === 'text/html') {
+                            tagOutput.innerHTML = decodeRecord(record.data);
+                        }
+                        else if (record.recordtype === 'mime' && record.mediaType === 'text/javascript') {
+                            const script = document.createElement('script');
+                            script.innerHTML = decodeRecord(record.data);
+                            documentHead.appendChild(script);
+                        }
                     }
                 });
             } catch (error) {
