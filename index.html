@@ -10,22 +10,26 @@
 			alert('Please open this page as a local file (file://page-path) or through https.');
 		}
 		else {
-			console.log('Secure Context');
-			const textEl = document.getElementById('display');
-			const ndef = new NDEFReader();
-			let ignoreRead = false;
+			scanButton.addEventListener("click", async () => {
+				console.log("User clicked scan button");
 
-			ndef.scan()
-			.then(()=> {
-				display.textContent = "Scan started";
-				ndef.onreadingerror = (event) => {
-					display.textContent = "Could not read from tag.";
+				try {
+					const ndef = new NDEFReader();
+					await ndef.scan();
+					console.log("> Scan started");
+
+					ndef.addEventListener("readingerror", () => {
+						console.log("Argh! Cannot read data from the NFC tag. Try another one?");
+					});
+
+					ndef.addEventListener("reading", ({ message, serialNumber }) => {
+						console.log(`> Serial Number: ${serialNumber}`);
+						console.log(`> Records: (${message.records.length})`);
+					});
+				} catch (error) {
+					console.log("Argh! " + error);
 				}
-				ndef.onreading = (event) => {
-					display.textContent("NDEF message read");
-					console.log(event);
-				}
-			})
+			});
 		}
 	</script>
 </head>
