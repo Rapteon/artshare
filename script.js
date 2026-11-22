@@ -37,9 +37,6 @@ window.addEventListener('load', () => {
                     const tagOutput = document.getElementById('tag-output');
                     const documentHead = document.querySelector('head');
                     for (const record of message.records) {
-                        const li = document.createElement('li');
-                        li.textContent = [record.id, record.recordType, record.mediaType, record.encoding, record.lang].join(':');
-                        recordsContainer.appendChild(li);
                         if (record.recordType === 'mime' && record.mediaType === 'text/html') {
                             tagOutput.innerHTML = decodeRecord(record.data);
                         }
@@ -48,6 +45,9 @@ window.addEventListener('load', () => {
                             script.innerHTML = decodeRecord(record.data);
                             documentHead.appendChild(script);
                         }
+                        const li = document.createElement('li');
+                        li.textContent = [record.id, record.recordType, record.mediaType, record.encoding, record.lang].join(':');
+                        recordsContainer.appendChild(li);
                     }
                 });
             } catch (error) {
