@@ -10,6 +10,7 @@
 			alert('Please open this page as a local file (file://page-path) or through https.');
 		}
 		else {
+			console.log('Secure Context');
 			const textEl = document.getElementById('display');
 			const ndef = new NDEFReader();
 			let ignoreRead = false;
