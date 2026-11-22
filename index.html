@@ -6,10 +6,12 @@
 	<title>NFC Art Share</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	<script defer>
+		const display = document.getElementById('display');
 		if (!window.isSecureContext) {
-			alert('Please open this page as a local file (file://page-path) or through https.');
+			display.textContent = 'Please open this page as a local file (file://page-path) or through https.';
 		}
 		else {
+			const scanButton = document.getElementById('scan-button');
 			scanButton.addEventListener("click", async () => {
 				console.log("User clicked scan button");
 
@@ -35,7 +37,8 @@
 </head>
 
 <body>
-	<p id="display">Please allow NFC permissions</p>
+	<button id="scan-button">Scan tag</button>
+	<p id="display"></p>
 </body>
 
 </html>
