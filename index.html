@@ -7,11 +7,13 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	<script defer>
 		const display = document.getElementById('display');
+		console.log(display);
 		if (!window.isSecureContext) {
 			display.textContent = 'Please open this page as a local file (file://page-path) or through https.';
 		}
 		else {
 			const scanButton = document.getElementById('scan-button');
+			display.textContent = `ScanButton ${scanButton}`;
 			scanButton.addEventListener("click", async () => {
 				console.log("User clicked scan button");
 
