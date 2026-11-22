@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>NFC Art Share</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+	<script defer>
+		if (!window.isSecureContext) {
+			alert('Please open this page as a local file (file://page-path) or through https.');
+		}
+		else {
+			const textEl = document.getElementById('display');
+			const ndef = new NDEFReader();
+			let ignoreRead = false;
+
+			ndef.scan()
+			.then(()=> {
+				display.textContent = "Scan started";
+				ndef.onreadingerror = (event) => {
+					display.textContent = "Could not read from tag.";
+				}
+				ndef.onreading = (event) => {
+					display.textContent("NDEF message read");
+					console.log(event);
+				}
+			})
+		}
+	</script>
+</head>
+
+<body>
+	<p id="display">Please allow NFC permissions</p>
+</body>
+
+</html>
