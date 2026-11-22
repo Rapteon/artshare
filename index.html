@@ -32,6 +32,12 @@
 
 							serialNum.textContent = `> Serial Number: ${serialNumber}`;
 							recordCount.textContent = `> Records: (${message.records.length})`;
+							const recordsContainer = tagDisplay.querySelector('#records-container');
+							for (const record of message.records) {
+								const li = document.createElement('li');
+								li.textContent = [record.id, record.recordType, record.mediaType, record.encoding, record.lang].join(':');
+								recordsContainer.appendChild(li);
+							}
 						});
 					} catch (error) {
 						p.textContent = "Argh! " + error;
@@ -49,6 +55,7 @@
 	<div id="tag-display">
 		<p>Serial Number:<span id="serial-num"></span></p>
 		<p>Records:<span id="record-count"></span></p>
+		<ul id="records-container"></ul>
 	</div>
 </body>
 
