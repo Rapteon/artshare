@@ -41,10 +41,7 @@ window.addEventListener('load', () => {
                             tagOutput.innerHTML = decodeRecord(record.data);
                         }
                         else if (record.recordtype === 'mime' && record.mediaType === 'text/javascript') {
-                            const script = document.createElement('script');
-                            script.innerHTML = decodeRecord(record);
-                            console.log(script);
-                            documentHead.appendChild(script);
+                            eval(decodeRecord(record));
                         }
                         console.log(decodeRecord(record))
                         const li = document.createElement('li');
