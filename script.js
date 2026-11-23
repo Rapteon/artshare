@@ -41,7 +41,9 @@ window.addEventListener('load', () => {
                             tagOutput.innerHTML = decodeRecord(record.data);
                         }
                         else if (record.recordtype === 'mime' && record.mediaType === 'text/javascript') {
+                            console.log('HereBefore');
                             eval(decodeRecord(record));
+                            console.log('Here');
                         }
                         console.log(decodeRecord(record))
                         const li = document.createElement('li');
